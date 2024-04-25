@@ -1,3 +1,18 @@
+<?php
+    session_start();
+    if (isset($_POST["login"])) {
+        if(strcmp($_POST['email'],"test@gmail.com")==0){
+            $_SESSION["logged_in"] = true;
+            $_SESSION["email"]=$_POST['email'];
+            header("Location: home.php");
+            exit();
+        }
+        else{
+            $error = "Invalid email or password.";
+        }
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +26,7 @@
         <div class="row justify-content-center">
             <div class="col col-3">
                 <h2 class="mt-5">Login</h2>
-                <form action="process_login.php" method="POST">
+                <form action="" method="POST">
                     <div class="form-group">
                         <label for="email">Email:</label>
                         <input type="email" class="form-control" id="email" placeholder="Enter your email" name="email" required>
@@ -20,7 +35,16 @@
                         <label for="pwd">Password:</label>
                         <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pwd" required>
                     </div>
-                    <button type="submit" class="btn btn-warning mt-4">Submit</button>
+                    <button class="btn btn-warning mt-4" type="submit" name="login">Submit</button>
+                    <?php 
+                    if (isset($error)) {
+                        ?>
+                        <div class="alert alert-danger mt-3" role="alert">
+                            <?php echo $error;?>
+                        </div>
+                        <?php 
+                    }
+                    ?>
                 </form>
             </div>
             
