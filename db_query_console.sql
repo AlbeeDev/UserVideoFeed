@@ -17,7 +17,8 @@ create table Category(
 
 create table Video(
     id int primary key auto_increment,
-    description text,
+    title varchar(255),
+    length int,
     link varchar(255),
     id_category int,
     id_user int,
