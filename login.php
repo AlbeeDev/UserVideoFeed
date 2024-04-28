@@ -1,14 +1,39 @@
 <?php
     session_start();
     if (isset($_POST["login"])) {
-        if(strcmp($_POST['email'],"test@gmail.com")==0){
-            $_SESSION["logged_in"] = true;
-            $_SESSION["email"]=$_POST['email'];
-            header("Location: home.php");
-            exit();
-        }
-        else{
-            $error = "Invalid email or password.";
+        include "db_connect.php";
+		if ($conn->connect_error) {
+		  die("Connection failed: " . $conn->connect_error);
+		}	
+
+        $email = $_POST["email"];
+        $password = $_POST["pwd"];
+
+        $sql = "SELECT username, password, is_admin FROM User WHERE email = ?";
+        if ($stmt = $conn->prepare($sql)) {
+            $stmt->bind_param("s", $email);
+            $stmt->execute();
+            $stmt->store_result();
+
+            if ($stmt->num_rows > 0) {
+                $stmt->bind_result($username, $storedPassword, $isAdmin); 
+                $stmt->fetch();
+                echo $password." ". $storedPassword;
+                if (password_verify($password, $storedPassword)) {
+                    $_SESSION["logged_in"] = true;
+                    $_SESSION["email"]=$email;
+                    $_SESSION["username"]=$username;
+                    $_SESSION["is_admin"]=$isAdmin;
+
+                    header("Location: home.php");
+                    exit();
+
+                } else {
+                    echo "Invalid password!";
+                }
+            } else {
+                echo "No user found with that email address.";
+            }
         }
     }
 ?>

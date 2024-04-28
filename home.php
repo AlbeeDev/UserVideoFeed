@@ -1,7 +1,7 @@
 <?php
     session_start();
     if (isset($_SESSION["logged_in"]) && $_SESSION["logged_in"]) {
-        //echo "welcome ".$_SESSION["email"]." ";
+        echo "welcome ".$_SESSION["username"]." ";
         //echo '<a href="logout.php">logout</a>';
     } else {
         header("Location: logout.php");
