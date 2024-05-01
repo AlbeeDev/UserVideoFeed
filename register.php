@@ -27,8 +27,9 @@
                         echo "success!";
                         //echo '<script>document.location.href=\'home.php\'</script>';
                         $_SESSION["logged_in"] = true;
-                        $_SESSION["email"]=$_POST['email'];
-                        header("Location: home.php");
+                        $_SESSION["email"]=$email;
+                        $_SESSION["username"]=$username;
+                        header("Location: login.php");
                         exit();
                     } else {
                         echo "Error: " . $stmt->error;
@@ -65,10 +66,6 @@
                     <div class="form-group">
                         <label for="pwd">Password:</label>
                         <input type="password" class="form-control" id="pwd" placeholder="Create a password" name="pwd" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="pwd-confirm">Confirm Password:</label>
-                        <input type="password" class="form-control" id="pwd-confirm" placeholder="Confirm your password" name="pwd_confirm" required>
                     </div>
                     <button type="submit" class="btn btn-warning mt-4" name="register">Register</button>
                 </form>
